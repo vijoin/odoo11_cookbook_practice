@@ -16,3 +16,12 @@ class LibraryBook(models.Model):
         'res.partner',
         string = 'Authors'
     )
+
+    def name_get(self):
+        result = []
+        for record in self:
+            result.append(
+                (record.id,
+                 "%s (%s)" % (record.name, record.date_release)
+            ))
+        return result
