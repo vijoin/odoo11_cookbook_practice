@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import fields, models
+from odoo.addons import decimal_precision as dp
 
 
 class LibraryBook(models.Model):
@@ -25,6 +26,8 @@ class LibraryBook(models.Model):
                               strip_style=True,
                               translate=False,)
     cover = fields.Binary('Book Cover')
+    cost_price = fields.Float('Book Cost',
+                              dp.get_precision('Book Price'))
     out_of_print = fields.Boolean('Out of Print?')
     date_release = fields.Date('Release Date')
     date_update = fields.Datetime('Last Updated')
