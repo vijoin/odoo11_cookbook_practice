@@ -15,6 +15,7 @@ class LibraryBook(models.Model):
                              required=True,
                              size=100,
                              translate=False)
+    category_id = fields.Many2one('library.book.category', 'Category')
     notes = fields.Text('Internatl Notes')
     state = fields.Selection(
         [('draft','Not Available'),
