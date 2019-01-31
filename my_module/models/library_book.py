@@ -52,6 +52,13 @@ class LibraryBook(models.Model):
     )
     currency_id = fields.Many2one('res.currency', string='Currency')
     retail_price = fields.Monetary('Retail Price')
+    publisher_id = fields.Many2one('res.partner', string='Publisher',
+                                   ondelete='set null',
+                                   context={},
+                                   domain=[],
+                                   )
+
+
     active = fields.Boolean('Active')
 
     def name_get(self):
@@ -62,3 +69,13 @@ class LibraryBook(models.Model):
                  "%s (%s)" % (record.name, record.date_release)
             ))
         return result
+
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
+
+    published_book_ids = fields.One2many(
+        'library.book', 'publisher_id',
+        string='Published Books')
+
+    authored_book_ids = fields.Many2many('library.book', string='Authored Books',
+                                         relation='library_book_res_partner_rel')
