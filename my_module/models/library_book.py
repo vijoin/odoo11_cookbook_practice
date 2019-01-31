@@ -50,6 +50,8 @@ class LibraryBook(models.Model):
         'res.partner',
         string = 'Authors'
     )
+    currency_id = fields.Many2one('res.currency', string='Currency')
+    retail_price = fields.Monetary('Retail Price')
     active = fields.Boolean('Active')
 
     def name_get(self):
