@@ -59,6 +59,10 @@ class LibraryBook(models.Model):
                                    context={},
                                    domain=[],
                                    )
+    publisher_city = fields.Char(
+        'Publisher City',
+        related='publisher_id.city',
+        readonly=True)
     age_days = fields.Float(
         string='Days Since Release',
         compute='_compute_age',
