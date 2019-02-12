@@ -6,16 +6,17 @@
         <field name="model">library.book</field>
         <field name="arch" type="xml">
             <form>
-                <group>
+                <group col="4">
                     <field name="name"/>
                     <field name="author_ids" widget="many2many_tags"/>
                 </group>
-                <group>
+                <group col="4">
                     <field name="date_release"/>
                     <field name="age_days"/>
                     <field name="age_days"/>
                     <field name="publisher_id"/>
                     <field name="publisher_city"/>
+                    <field name="ref_docs_id"/>
                 </group>
             </form>
         </field>

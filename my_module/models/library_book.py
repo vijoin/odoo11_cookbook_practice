@@ -13,7 +13,7 @@ class LibraryBook(models.Model):
 
     name = fields.Char('Title', required=True)
     short_name = fields.Char('Short Title',
-                             required=True,
+                             #required=True,
                              size=100,
                              translate=False)
     category_id = fields.Many2one('library.book.category', 'Category')
@@ -71,6 +71,10 @@ class LibraryBook(models.Model):
         store=False,
         compute_sudo=False,
     )
+    ref_docs_id = fields.Reference(
+        selection='_referencable_models',
+        string='Reference Document',
+    )
     active = fields.Boolean('Active')
 
     def name_get(self):
@@ -122,6 +126,18 @@ class LibraryBook(models.Model):
         }
         new_op = operator_map.get(operator, operator)
         return [('date_release', new_op, value_date)]
+
+    @api.model
+    def _referencable_models(self):
+
+        #models = self.env['res.request.link'].search[()]
+        #return [(x.object, x.name) for x in models]
+
+        ref_list = [
+            ('res.users','Users'),
+            ('res.partner','Partners'),
+        ]
+        return ref_list
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
