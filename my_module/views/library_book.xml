@@ -12,6 +12,7 @@
                 </group>
                 <group>
                     <field name="date_release"/>
+                    <field name="age_days"/>
                 </group>
             </form>
         </field>
