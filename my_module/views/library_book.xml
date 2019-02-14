@@ -6,6 +6,9 @@
         <field name="model">library.book</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name="do_archive" type="object" string="Archive"/>
+                </header>
                 <group col="4">
                     <field name="name"/>
                     <field name="author_ids" widget="many2many_tags"/>
