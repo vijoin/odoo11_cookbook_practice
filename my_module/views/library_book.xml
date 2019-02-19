@@ -8,6 +8,8 @@
             <form>
                 <header>
                     <button name="do_archive" type="object" string="Archive"/>
+                    <field name="state" widget="statusbar" clickable="1"/>
+                    <button name="try_change_state" type="object" string="Try"/>
                 </header>
                 <group col="4">
                     <field name="name"/>

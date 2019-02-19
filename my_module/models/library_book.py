@@ -31,6 +31,7 @@ class LibraryBook(models.Model):
     state = fields.Selection(
         [('draft','Not Available'),
          ('available','Available'),
+         ('borrowed', 'Borrowed'),
          ('lost','Lost')],
         'State')
     description = fields.Html(string='Description',
@@ -148,6 +149,28 @@ class LibraryBook(models.Model):
             ('res.partner','Partners'),
         ]
         return ref_list
+
+    @api.model
+    def is_allowed_transition(self, old_state, new_state):
+        allowed = [('draft', 'available'),
+                   ('available', 'borrowed'),
+                   ('borrowed', 'available'),
+                   ('available', 'lost'),
+                   ('borrowed', 'lost'),
+                   ('lost', 'available'),]
+        return (old_state, new_state) in allowed
+
+    @api.multi
+    def change_state(self, new_state):
+        for book in self:
+            if book.is_allowed_transition(book.state, new_state):
+                book.state = new_state
+            else:
+                continue
+
+    @api.multi
+    def try_change_state(self):
+        self.change_state('lost')
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
