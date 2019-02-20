@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from odoo import fields, models, api
+import os
+from odoo import fields, models, api, _
 from odoo.addons import decimal_precision as dp
 from odoo.fields import Date as fDate
+from odoo.exceptions import UserError
 
 class BaseArchive(models.AbstractModel):
     _name = 'base.archive'
@@ -38,6 +40,8 @@ class LibraryBook(models.Model):
                               sanitize=True,
                               strip_style=True,
                               translate=False,)
+    data = fields.Text()
+    filename = fields.Char()
     cover = fields.Binary('Book Cover')
     cost_price = fields.Float('Book Cost',
                               dp.get_precision('Book Price'))
@@ -171,6 +175,24 @@ class LibraryBook(models.Model):
     @api.multi
     def try_change_state(self):
         self.change_state('lost')
+
+    @api.multi
+    def save_data(self):
+        self.save(self.filename)
+
+    @api.multi
+    def save(self, filename):
+        if '/' in filename or '\\' in filename:
+            raise UserError('Illegal filename %s' % filename)
+        path = os.path.join('/opt/exports', filename)
+        try:
+            with open(path, 'w') as fobj:
+                for record in self:
+                    fobj.write(record.data)
+                    fobj.write('\n')
+        except (IOError, OSError) as exc:
+            message = _('Unable to save file: %s') % exc
+            raise UserError(message)
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
