@@ -11,6 +11,7 @@
                     <field name="state" widget="statusbar" clickable="1"/>
                     <button name="try_change_state" type="object" string="Try"/>
                     <button name="save_data" type="object" string="Save Data"/>
+                    <button name="log_members" type="object" string="Log Members"/>
 
                 </header>
                 <group col="4">

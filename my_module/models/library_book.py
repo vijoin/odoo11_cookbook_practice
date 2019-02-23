@@ -6,6 +6,9 @@ from odoo.addons import decimal_precision as dp
 from odoo.fields import Date as fDate
 from odoo.exceptions import UserError
 
+import logging
+_logger = logging.getLogger(__name__)
+
 class BaseArchive(models.AbstractModel):
     _name = 'base.archive'
 
@@ -193,6 +196,16 @@ class LibraryBook(models.Model):
         except (IOError, OSError) as exc:
             message = _('Unable to save file: %s') % exc
             raise UserError(message)
+
+    @api.model
+    def get_all_library_members(self):
+        library_member_model = self.env['library.member'].sudo()
+        library_member_model.create({'name': 'Victor Inojosa'})
+        return library_member_model.search([])
+
+    @api.multi
+    def log_members(self):
+        _logger.info("\nMembers: %s\n" % self.get_all_library_members().mapped('name'))
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
