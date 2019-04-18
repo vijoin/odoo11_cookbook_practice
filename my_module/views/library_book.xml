@@ -12,6 +12,7 @@
                     <button name="try_change_state" type="object" string="Try"/>
                     <button name="save_data" type="object" string="Save Data"/>
                     <button name="log_members" type="object" string="Log Members"/>
+                    <button name="create_partner" type="object" string="Create Partner"/>
 
                 </header>
                 <group col="4">

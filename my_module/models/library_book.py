@@ -207,6 +207,11 @@ class LibraryBook(models.Model):
     def log_members(self):
         _logger.info("\nMembers: %s\n" % self.get_all_library_members().mapped('name'))
 
+    @api.multi
+    def create_partner(self):
+        record = self.env['res.partner'].create_partner()
+        _logger.info("New Partners IDs: Parent %s and Children %s" % (record, record.child_ids))
+
 class ResPartner(models.Model):
     _inherit = 'res.partner'
     _order = 'name'
@@ -226,6 +231,32 @@ class ResPartner(models.Model):
     def _compute_count_books(self):
         for r in self:
             r.count_books = len(r.authored_book_ids)
+
+    @api.multi
+    def create_partner(self):
+        today_str = fields.Date.context_today(self)
+
+        val1 = {'name': 'Eric Idle',
+                'email': 'eric.idle@example.com',
+                'date': today_str}
+
+        val2 = {'name': 'John Clesse',
+                'email': 'john.cleese@example.com',
+                'date': today_str}
+
+        partner_val = {
+            'name': 'Flying Circus',
+            'email': 'm.python@example.com',
+            'date': today_str,
+            'is_company': True,
+            'child_ids': [
+                            (0, 0, val1),
+                            (0, 0, val2),
+                         ]
+                      }
+
+        record = self.env['res.partner'].create(partner_val)
+        return record
 
 class LibraryMember(models.Model):
     _name = 'library.member'
