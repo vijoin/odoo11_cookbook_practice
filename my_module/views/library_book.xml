@@ -13,6 +13,7 @@
                     <button name="save_data" type="object" string="Save Data"/>
                     <button name="log_members" type="object" string="Log Members"/>
                     <button name="create_partner" type="object" string="Create Partner"/>
+                    <button name="button_add_contacts" type="object" string="Add Contacts"/>
 
                 </header>
                 <group col="4">

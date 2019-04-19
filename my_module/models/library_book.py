@@ -211,6 +211,21 @@ class LibraryBook(models.Model):
     def create_partner(self):
         record = self.env['res.partner'].create_partner()
         _logger.info("New Partners IDs: Parent %s and Children %s" % (record, record.child_ids))
+        return record
+
+    @api.model
+    def add_contacts(self, partner, contacts):
+        partner.ensure_one()
+        if contacts:
+            partner.date = fields.Date.context_today(self)
+            partner.child_ids |= contacts
+
+    @api.multi
+    def button_add_contacts(self):
+        for partner in self.author_ids:
+            created_partner_id = self.create_partner()
+            contact_ids = created_partner_id | created_partner_id.child_ids
+            self.add_contacts(partner, contact_ids)
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
