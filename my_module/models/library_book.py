@@ -227,6 +227,25 @@ class LibraryBook(models.Model):
             contact_ids = created_partner_id | created_partner_id.child_ids
             self.add_contacts(partner, contact_ids)
 
+    @api.model
+    def find_partners_and_contacts(self, name):
+        partner = self.env['res.partner']
+
+        domain = ['|',
+                  '&',
+                  ('is_company', '=', True),
+                  ('name', 'ilike', name),
+                  ('&'),
+                  ('is_company', '=', False),
+                  ('parent_id.name', 'ilike', name)
+                  ]
+
+        return partner.search(domain)
+
+    def button_find_partners_contacts(self):
+        partner_ids = self.find_partners_and_contacts("test")
+        _logger.info("Found Partners IDs: %s Name: %s " % (partner_ids, partner_ids.mapped('name')))
+
 class ResPartner(models.Model):
     _inherit = 'res.partner'
     _order = 'name'
