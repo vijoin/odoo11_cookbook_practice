@@ -15,6 +15,7 @@
                     <button name="create_partner" type="object" string="Create Partner"/>
                     <button name="button_add_contacts" type="object" string="Add Contacts"/>
                     <button name="button_find_partners_contacts" type="object" string="Find Partners and Contacts"/>
+                    <button name="button_test_combining_recordsets" type="object" string="Test Combining Recordsets"/>
 
 
                 </header>

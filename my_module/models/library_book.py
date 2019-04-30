@@ -246,6 +246,26 @@ class LibraryBook(models.Model):
         partner_ids = self.find_partners_and_contacts("test")
         _logger.info("Found Partners IDs: %s Name: %s " % (partner_ids, partner_ids.mapped('name')))
 
+    def button_test_combining_recordsets(self):
+        partner_test_ids = self.find_partners_and_contacts("test")
+        partner_prueba_ids = self.find_partners_and_contacts("prueba")
+
+        recordset_1_ids = partner_test_ids + partner_prueba_ids
+        _logger.info("recordset1 IDs: %s Name: %s " % (
+        recordset_1_ids, recordset_1_ids.mapped('name')))
+
+        recordset_1_ids = partner_test_ids + partner_prueba_ids
+        _logger.info("recordset1 IDs: %s Name: %s " % (
+            recordset_1_ids, recordset_1_ids.mapped('name')))
+
+        recordset_2_ids = partner_test_ids | partner_prueba_ids
+        _logger.info("recordset2 IDs: %s Name: %s " % (
+            recordset_2_ids, recordset_2_ids.mapped('name')))
+
+        recordset_3_ids = partner_test_ids & partner_prueba_ids
+        _logger.info("recordset3 IDs: %s Name: %s " % (
+            recordset_3_ids, recordset_3_ids.mapped('name')))
+
 class ResPartner(models.Model):
     _inherit = 'res.partner'
     _order = 'name'
